@@ -1,1 +1,2 @@
-puts "running ruby code"
+#!/bin/bash 
+echo "running init.sh"
