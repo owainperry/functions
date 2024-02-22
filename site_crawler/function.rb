@@ -7,12 +7,7 @@ class Plugin
     @api = api
     @log = log
     @config = config
-    @plugin_id = Helper.get_env_or_fail("X_PLUGIN_ID")
-    @exit = false
-  end
-
-  def exit?()
-    return @exit
+    @plugin_id = Helper.get_env_or_fail("X_PLUGIN_ID")   # this should be in the API  
   end
 
   def on_init()
@@ -27,7 +22,8 @@ class Plugin
 
     mirror_site(site,storage_path)
     create_and_push_data_object(storage_path,data_object_name)
-    @exit = true
+    # we are done , we want to exit process 
+    @api.exit()
   end
 
   def on_file_event(event)
@@ -40,6 +36,10 @@ class Plugin
 
   def on_folder_event(event)
     @log.info("folder event")
+  end
+
+  def on_end()
+    @log.info("on_end")
   end
 
   def mirror_site(site,storage_path)
