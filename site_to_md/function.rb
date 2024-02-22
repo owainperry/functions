@@ -20,11 +20,13 @@ class Plugin
 
   def on_start()
     @log.info("on_start")  
-
     tmp_path = @config.get("tmp_path")
     storage_path = @config.get("storage_path")
     @log.info("tmp_path: #{tmp_path}")
     @log.info("storage_path: #{storage_path}")  
+
+    FileUtils.mkdir_p storage_path
+    FileUtils.mkdir_p tmp_path
 
     Dir.chdir(tmp_path){
       @log.info("pull #{data_object_name}")
