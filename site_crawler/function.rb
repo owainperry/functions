@@ -13,6 +13,14 @@ class Plugin
 
   def on_start()
     puts("Starting plugin")
+    @log.info(`apt-get install -y wget2`)
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+    threads = "1"
+    #site = "https://www.parsons.com:443/"
+    site = "www.example.com"
+    #export SITE=" https://www.parsons.com:443/"
+    #wget -d --no-cookies -e robots=off --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36" --mirror --convert-links --adjust-extension --page-requisites -o log $SITE
+    puts(`wget2  --max-threads  #{threads} -d --no-cookies -e robots=off --user-agent="#{user_agent}" --mirror --convert-links --adjust-extension --page-requisites #{site}`)
   end
 
   def on_file_event(event)
