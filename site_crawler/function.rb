@@ -8,26 +8,21 @@ class Plugin
     @log = log
     @config = config
     @plugin_id = Helper.get_env_or_fail("X_PLUGIN_ID")
-    on_init()
-    on_start()
   end
 
   def on_init()
     @log.info("on_init")
-    @log.info(`apt-get install -y wget2`)
   end
 
   def on_start()
     @log.info("on_start")    
-    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
-    threads = "1"
-    #site = "https://www.parsons.com:443/"
     site = @config.get("site")
-    #site = "www.example.com"
-    #export SITE=" https://www.parsons.com:443/"
-    #wget -d --no-cookies -e robots=off --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36" --mirror --convert-links --adjust-extension --page-requisites -o log $SITE
-    @log.info("crawling site #{site}")
-    puts(`wget2 --max-threads  #{threads} -d --no-cookies -e robots=off --user-agent="#{user_agent}" --mirror --convert-links --adjust-extension --page-requisites #{site}`)
+    data_object_name = @config.get("data_object_name")
+    storage_path =  @config.get("storage_path")
+
+    mirror_site(site,storage_path)
+    create_and_push_data_object(storage_path,data_object_name)
+   
   end
 
   def on_file_event(event)
@@ -41,6 +36,27 @@ class Plugin
   def on_folder_event(event)
     @log.info("folder event")
   end
+
+  def mirror_site(site,storage_path)
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+    @log.info("crawling site #{site}")
+    puts(`wget -d --no-cookies -e robots=off --user-agent="#{user_agent}" --mirror --convert-links --adjust-extension --page-requisites -P #{storage_path}  #{site}`)  
+  end 
+
+  def create_and_push_data_object(storage_path,data_object_name)
+    Dir.chdir(storage_path){
+      folders = ""
+      Dir.children(storage_path).each do |file|
+        folders = folders + " ./#{file}:application/vnd.acme.rocket.docs.layer.v1+tar"
+      end
+      cli = "oras push #{data_object_name} #{folders}"
+      puts("cli: #{cli}")
+      puts(`#{cli}`)
+  }
+  end
+
+
+
 end
 
 

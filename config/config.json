@@ -1,0 +1,8 @@
+{
+    "function_gitrepo": "https://github.com/owainperry/functions.git",
+    "function_path": "site_crawler",
+    "tmp_path": "/tmp",
+    "site": "https://www.example.com:443/",
+    "data_object_name": "docker.io/owainperry/site-test:0.1",
+    "storage_path": "/tmp/storage"
+}
