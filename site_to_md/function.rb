@@ -15,7 +15,7 @@ class Plugin
     @log.info("on_init")
     puts(`wget https://github.com/suntong/html2md/releases/download/v1.5.0/html2md_1.5.0_linux_amd64.tar.gz`)
     puts(`tar -zxvf ./html2md_1.5.0_linux_amd64.tar.gz`)
-    puts(`mv html2md_1.5.0_linux_amd64/html2md /usr/local/bin/`)
+    puts(`mv html2md_1.5.0_linux_amd64/html2md /home/user/html2md`)
   end
 
   def on_start()
@@ -72,7 +72,7 @@ class Html2MD
 
     def process_file(file)
         puts(file)
-        file_content = `./html2md -i #{file} `
+        file_content = `/home/user/html2md -i #{file} `
         output_path = File.join(@tmp_path,file.gsub(@folder,"")).gsub(".html",".md").gsub(".htm",".md")
         puts(output_path)
         dirs = File.dirname(output_path)
