@@ -24,26 +24,26 @@ class Plugin
     begin
       tmp_path = @config.get("tmp_path")
       storage_path = @config.get("storage_path")
+      data_object_name = @config.get("data_object_name")
+
+
       @log.info("tmp_path: #{tmp_path}")
       @log.info("storage_path: #{storage_path}")  
 
       FileUtils.mkdir_p storage_path
       FileUtils.mkdir_p tmp_path
 
-      #Dir.chdir(tmp_path){
-      @log.info("pull #{data_object_name}")
-      cli = "oras pull #{data_object_name} "
-      @log.info("cli: #{cli}")
-      puts(`#{cli}`)
-        
-      #   folders = Dir["./"]
-      #   folders.each do |folder|
-      #     html2md = Html2MD.new(@log,@api,folder,storage_path)
-      #     html2md.process()
-      #   end
-
-      #}
-      #   sleep(600)
+      Dir.chdir(tmp_path){
+        @log.info("pull #{data_object_name}")
+        cli = "oras pull #{data_object_name} "
+        @log.info("cli: #{cli}")
+        puts(`#{cli}`)
+        folders = Dir["./"]
+        folders.each do |folder|
+          html2md = Html2MD.new(@log,@api,folder,storage_path)
+          html2md.process()
+        end
+     }
 
     rescue => e
       puts("EXCEPTION: #{e}")
