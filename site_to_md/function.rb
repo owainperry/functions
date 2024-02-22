@@ -26,12 +26,11 @@ class Plugin
     @log.info("tmp_path: #{tmp_path}")
     @log.info("storage_path: #{storage_path}")  
 
-    # Dir.chdir(@run_path){
-
-    #   @log.info("pull #{data_object_name}")
-    #   cli = "oras pull #{data_object_name} "
-    #   @log.info("cli: #{cli}")
-    #   puts(`#{cli}`)
+    Dir.chdir(tmp_path){
+      @log.info("pull #{data_object_name}")
+      cli = "oras pull #{data_object_name} "
+      @log.info("cli: #{cli}")
+      puts(`#{cli}`)
       
     #   folders = Dir["./"]
     #   folders.each do |folder|
@@ -39,12 +38,12 @@ class Plugin
     #     html2md.process()
     #   end
 
-
+    }
     #   sleep(600)
 
     @log.info("exit")
     @api.exit()
-    #}
+    
   end
 
   def on_file_event(event)
