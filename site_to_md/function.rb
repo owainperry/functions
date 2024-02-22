@@ -13,17 +13,20 @@ class Plugin
 
   def on_init()
     @log.info("on_init")
-    # puts(`wget https://github.com/suntong/html2md/releases/download/v1.5.0/html2md_1.5.0_linux_amd64.tar.gz`)
-    # puts(`tar -zxvf ./html2md_1.5.0_linux_amd64.tar.gz`)
+    puts(`wget https://github.com/suntong/html2md/releases/download/v1.5.0/html2md_1.5.0_linux_amd64.tar.gz`)
+    puts(`tar -zxvf ./html2md_1.5.0_linux_amd64.tar.gz`)
     # puts(`mv html2md_1.5.0_linux_amd64/html2md /home/user/html2md`)
   end
 
   def on_start()
     @log.info("on_start")  
-    
+
+    tmp_path = @config.get("tmp_path")
+    storage_path = @config.get("storage_path")
+    @log.info("tmp_path: #{tmp_path}")
+    @log.info("storage_path: #{storage_path}")  
+
     # Dir.chdir(@run_path){
-    #   tmp_path = @config.get("tmp_path")
-    #   storage_path = @config.get("storage_path")
 
     #   @log.info("pull #{data_object_name}")
     #   cli = "oras pull #{data_object_name} "
@@ -39,7 +42,7 @@ class Plugin
 
     #   sleep(600)
 
-
+    @log.info("exit")
     @api.exit()
     #}
   end
