@@ -1,0 +1,8 @@
+{
+    "function_gitrepo": "https://github.com/owainperry/functions.git",
+    "function_path": "site_to_md",
+    "tmp_path": "/tmp",
+    "site": "www.surfncode.io",
+    "data_object_name": "docker.io/owainperry/site-surfncode-io:0.1",
+    "storage_path": "/tmp/storage"
+}
