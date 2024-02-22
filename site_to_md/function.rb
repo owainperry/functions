@@ -21,27 +21,27 @@ class Plugin
   def on_start()
     @log.info("on_start")  
     
-    Dir.chdir(@run_path){
-      tmp_path = @config.get("tmp_path")
-      storage_path = @config.get("storage_path")
+    # Dir.chdir(@run_path){
+    #   tmp_path = @config.get("tmp_path")
+    #   storage_path = @config.get("storage_path")
 
-      @log.info("pull #{data_object_name}")
-      cli = "oras pull #{data_object_name} "
-      @log.info("cli: #{cli}")
-      puts(`#{cli}`)
+    #   @log.info("pull #{data_object_name}")
+    #   cli = "oras pull #{data_object_name} "
+    #   @log.info("cli: #{cli}")
+    #   puts(`#{cli}`)
       
-      folders = Dir["./"]
-      folders.each do |folder|
-        html2md = Html2MD.new(@log,@api,folder,storage_path)
-        html2md.process()
-      end
+    #   folders = Dir["./"]
+    #   folders.each do |folder|
+    #     html2md = Html2MD.new(@log,@api,folder,storage_path)
+    #     html2md.process()
+    #   end
 
 
-      sleep(600)
+    #   sleep(600)
 
 
-      @api.exit()
-    }
+    #   @api.exit()
+    #}
   end
 
   def on_file_event(event)
