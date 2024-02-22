@@ -8,6 +8,11 @@ class Plugin
     @log = log
     @config = config
     @plugin_id = Helper.get_env_or_fail("X_PLUGIN_ID")
+    @exit = false
+  end
+
+  def exit?()
+    return @exit
   end
 
   def on_init()
@@ -22,7 +27,7 @@ class Plugin
 
     mirror_site(site,storage_path)
     create_and_push_data_object(storage_path,data_object_name)
-   
+    @exit = true
   end
 
   def on_file_event(event)
