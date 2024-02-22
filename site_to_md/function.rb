@@ -13,9 +13,9 @@ class Plugin
 
   def on_init()
     @log.info("on_init")
-    puts(`wget https://github.com/suntong/html2md/releases/download/v1.5.0/html2md_1.5.0_linux_amd64.tar.gz`)
-    puts(`tar -zxvf ./html2md_1.5.0_linux_amd64.tar.gz`)
-    puts(`mv html2md_1.5.0_linux_amd64/html2md /home/user/html2md`)
+    # puts(`wget https://github.com/suntong/html2md/releases/download/v1.5.0/html2md_1.5.0_linux_amd64.tar.gz`)
+    # puts(`tar -zxvf ./html2md_1.5.0_linux_amd64.tar.gz`)
+    # puts(`mv html2md_1.5.0_linux_amd64/html2md /home/user/html2md`)
   end
 
   def on_start()
@@ -40,7 +40,7 @@ class Plugin
     #   sleep(600)
 
 
-    #   @api.exit()
+    @api.exit()
     #}
   end
 
