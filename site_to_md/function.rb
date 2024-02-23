@@ -43,8 +43,9 @@ class Plugin
         @log.info("cli: #{cli}")
         @log.info(`#{cli}`)
         folders = Dir["./"]
-        @log.info("folders: " + folders)
+        puts(folders)
         folders.each do |folder|
+          @log.info("folder: " + folder)
           html2md = Html2MD.new(@log,@api,folder,storage_path)
           html2md.process()
         end
