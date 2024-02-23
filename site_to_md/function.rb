@@ -98,8 +98,7 @@ class Html2MD
         #write the file to cache
         result = @api.file_cache_write(output_path)
         if result.exit_code != 0
-          log.error("failed to write file to cache: #{result.error} #{result.exit_code}")
-          next
+          log.error("failed to write file to cache: #{result.error} #{result.exit_code}")         
         else
           # send file event 
           log.info(" writen to cache dest: #{result.destination} sending file event")
