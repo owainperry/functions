@@ -94,6 +94,20 @@ class Html2MD
         dirs = File.dirname(output_path)
         FileUtils.mkdir_p(dirs) unless File.directory?(dirs)
         File.write(output_path,file_content)
+
+        #write the file to cache
+        result = @api.file_cache_write(output_path)
+        if result.exit_code != 0
+          log.error("failed to write file to cache: #{result.error} #{result.exit_code}")
+          next
+        else
+          # send file event 
+          log.info(" writen to cache dest: #{result.destination} sending file event")
+          res1 = api.send_file_event(result.destination, File.basename(output_path), output_path, "website")
+          if res1.exit_code != 0
+            log.error("failed to send file event: #{res1.error} #{res1.exit_code}")
+          end
+        end
     end
 
     def process()
