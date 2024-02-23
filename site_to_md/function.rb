@@ -86,27 +86,40 @@ class Html2MD
       @tmp_path = tmp_path
     end
 
-    def process_file(file)
-        @log.info("process_file: #{file}")        
-        file_content = `/home/user/html2md -i #{file} `
-        output_path = File.join(@tmp_path,file.gsub(@folder,"")).gsub(".html",".md").gsub(".htm",".md")
-        @log.info("output path :" + output_path)
-        dirs = File.dirname(output_path)
-        FileUtils.mkdir_p(dirs) unless File.directory?(dirs)
-        File.write(output_path,file_content)
 
-        #write the file to cache
-        result = @api.file_cache_write(output_path)
-        if result.exit_code != 0
-          log.error("failed to write file to cache: #{result.error} #{result.exit_code}")         
-        else
-          # send file event 
-          log.info(" writen to cache dest: #{result.destination} sending file event")
-          res1 = api.send_file_event(result.destination, File.basename(output_path), output_path, "website")
-          if res1.exit_code != 0
-            log.error("failed to send file event: #{res1.error} #{res1.exit_code}")
-          end
-        end
+    def convert_html_to_md(file)
+      @log.info("process_file: #{file}")        
+      file_content = `/home/user/html2md -i #{file} `
+      output_path = File.join(@tmp_path,file.gsub(@folder,"")).gsub(".html",".md").gsub(".htm",".md")
+      @log.info("output path :" + output_path)
+      dirs = File.dirname(output_path)
+      FileUtils.mkdir_p(dirs) unless File.directory?(dirs)
+      File.write(output_path,file_content)
+      return output_path
+    end
+
+    def write_file_to_cache_and_send_event(output_path)
+      result = @api.file_cache_write(output_path)
+      if result.exit_code != 0
+        @log.error("failed to write file to cache: #{result.error} #{result.exit_code}")         
+      else
+        send_file_event(result.destination,output_path)
+      end
+    end
+
+    def send_file_event(destination,output_path)
+       @log.info(" writen to cache dest: #{destination} sending file event")
+       res1 = @api.send_file_event(destination, File.basename(output_path), output_path, "website")
+       if res1.exit_code != 0
+         @log.error("failed to send file event: #{res1.error} #{res1.exit_code}")
+       end
+    end
+
+    def process_file(file)
+        
+        output_path = convert_html_to_md(file)
+        write_file_to_cache_and_send_event(output_path)
+        
     end
 
     def process()
