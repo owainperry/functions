@@ -116,10 +116,8 @@ class Html2MD
     end
 
     def process_file(file)
-        
         output_path = convert_html_to_md(file)
         write_file_to_cache_and_send_event(output_path)
-        
     end
 
     def process()
